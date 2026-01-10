@@ -1,0 +1,95 @@
+# =========================
+# ConfigMap for Environment Variables
+# =========================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: degenter-api-config
+data:
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  PORT: "3000"
+
+---
+# =========================
+# Degenter API Deployment
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: degenter-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: degenter-api
+  template:
+    metadata:
+      labels:
+        app: degenter-api
+    spec:
+      containers:
+        - name: degenter-api
+          image: degenter-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: degenter-api-config
+
+---
+# =========================
+# Degenter API Service
+# =========================
+apiVersion: v1
+kind: Service
+metadata:
+  name: degenter-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: degenter-api
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+
+---
+# =========================
+# Redis Deployment
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+
+---
+# =========================
+# Redis Service
+# =========================
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - port: 6379
+      targetPort: 6379
