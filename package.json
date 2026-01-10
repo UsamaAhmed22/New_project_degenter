@@ -1,0 +1,49 @@
+{
+  "name": "zigdex-indexer",
+  "version": "0.1.0",
+  "description": "ZigChain aggregated DEX indexer (JS) with jobs & alerts",
+  "type": "commonjs",
+  "private": true,
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start:api": "node dist/api/main.js",
+    "start:indexer": "node dist/bin/start-indexer.js",
+    "start:jobs": "node dist/bin/start-jobs.js",
+    "start:alerts": "node dist/bin/start-alerts.js",
+    "repl": "node",
+    "check:db": "node -e \"import('./lib/db.js').then(m=>m.init().then(()=>process.exit(0)))\""
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.9",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.9",
+    "@nestjs/platform-express": "^11.1.9",
+    "@nestjs/terminus": "^11.0.0",
+    "chain-registry": "^2.0.73",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "cors": "^2.8.5",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "ioredis": "^5.8.2",
+    "morgan": "^1.10.1",
+    "pg": "^8.16.3",
+    "redis": "^5.10.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "typeorm": "^0.3.20",
+    "undici": "^6.19.8",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.1.9",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
