@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: degenter-api
-          image: degenter-api
+          image: degenter-api:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
